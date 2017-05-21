@@ -5,6 +5,8 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
  */
 public class ProductDaoWithJdbc implements ProductDao {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProductDaoWithJdbc.class);
     private static ProductDaoWithJdbc instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -82,9 +85,11 @@ public class ProductDaoWithJdbc implements ProductDao {
                         result.getString("description"),
                         category, supplier);
                 product.setId(id);
+                logger.info("{} - PRODUCT FOUND IN DB", product.getName());
             }
 
         } catch (SQLException e) {
+            logger.warn("PRODUCT NOT FOUND IN DB");
             e.printStackTrace();
         }
 
@@ -142,7 +147,6 @@ public class ProductDaoWithJdbc implements ProductDao {
     @Override
     public List<Product> getBy(Supplier supplier) {
         String query = "SELECT id FROM products WHERE supplier=" + supplier.getId() + ";";
-
         return queryExecuteHandler(query);
     }
 

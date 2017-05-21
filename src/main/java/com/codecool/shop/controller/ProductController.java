@@ -6,6 +6,8 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -18,6 +20,7 @@ public class ProductController {
     ProductDao productDataStore;
     ProductCategoryDao productCategoryDataStore;
     SupplierDao supplierDataStore;
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     public ProductController() {
         productDataStore = ProductDaoWithJdbc.getInstance();
@@ -30,6 +33,7 @@ public class ProductController {
         params.put("categories", productCategoryDataStore.getAll());
         params.put("products", productDataStore.getAll());
         params.put("suppliers", supplierDataStore.getAll());
+
         return params;
     }
 
@@ -44,7 +48,7 @@ public class ProductController {
 
         Map<String, Object> params = createDefaultMap();
         params.put("customer_id", customerId);
-
+        logger.info("REDIRECT PAYMENT PAGE WITH CUSTOMER ID: {}", customerId);
         return new ModelAndView(params, "product/payment");
     }
 
@@ -67,14 +71,4 @@ public class ProductController {
 
         return new ModelAndView(params, "product/index");
     }
-
-//    public ModelAndView (Request req, Response res) {
-//        String supplierName = req.params(":name");
-//        Supplier chosenSupplier = supplierDataStore.find(supplierName);
-//
-//        Map<String, Object> params = createDefaultMap();
-//        params.put("products", productDataStore.getBy(chosenSupplier));
-//
-//        return new ModelAndView(params, "product/index");
-//    }
 }

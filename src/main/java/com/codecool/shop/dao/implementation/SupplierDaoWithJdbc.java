@@ -4,18 +4,21 @@ import com.codecool.shop.controller.DBController;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
-import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by kata on 2017.05.09..
  */
 public class SupplierDaoWithJdbc implements SupplierDao {
 
-
+    private static final Logger logger = LoggerFactory.getLogger(SupplierDaoWithJdbc.class);
     private static SupplierDaoWithJdbc instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -73,8 +76,10 @@ public class SupplierDaoWithJdbc implements SupplierDao {
                 supplier.setId(id);
                 supplier.setProducts((ArrayList<Product>) new ProductDaoWithJdbc().getBy(supplier));
             }
+            logger.info("{} - SUPPLYER FOUND IN DB", supplier.getName());
 
         } catch (SQLException e) {
+            logger.warn("SUPPLYER NOT FOUND IN DB");
             e.printStackTrace();
         }
         return supplier;
@@ -93,9 +98,11 @@ public class SupplierDaoWithJdbc implements SupplierDao {
                 supplier = new Supplier(name, result.getString("description"));
                 supplier.setId(result.getInt("id"));
                 supplier.setProducts((ArrayList<Product>) new ProductDaoWithJdbc().getBy(supplier));
+                logger.info("{} - SUPPLYER FOUND IN DB", supplier.getName());
             }
 
         } catch (SQLException e) {
+            logger.warn("SUPPLYER NOT FOUND IN DB");
             e.printStackTrace();
         }
         return supplier;
