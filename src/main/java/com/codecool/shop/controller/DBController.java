@@ -3,7 +3,7 @@ package com.codecool.shop.controller;
 import java.sql.*;
 
 /**
- * Created by eb on 2017.05.08..
+ * This class create the Database connection
  */
 public class DBController {
 

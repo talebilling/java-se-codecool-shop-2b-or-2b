@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kata on 2017.05.08..
+ * This class operates on product data works with JDBC API
+ * Can access, store data in a Relational Database.
+ * Singleton class, can be created only one instance.
  */
 public class ProductDaoWithJdbc implements ProductDao {
 
@@ -29,7 +31,10 @@ public class ProductDaoWithJdbc implements ProductDao {
         return instance;
     }
 
-
+    /**
+     * This method add product to Database.
+     * @param product Product
+     */
     @Override
     public void add(Product product) {
         int id;
@@ -58,6 +63,11 @@ public class ProductDaoWithJdbc implements ProductDao {
         }
     }
 
+    /**
+     * This method search a product by an int ID to Database.
+     * @param id int type
+     * @return null or the found product
+     */
     @Override
     public Product find(int id) {
         String query = "SELECT product_categories.name AS pc_name, products.name AS p_name, suppliers.name AS s_name, * " +
@@ -91,6 +101,11 @@ public class ProductDaoWithJdbc implements ProductDao {
         return product;
     }
 
+    /**
+     * This method search a product by given name to Database.
+     * @param name String type
+     * @return null or the found product
+     */
     public Product find(String name) {
         String query = "SELECT product_categories.name AS pc_name, products.name AS p_name, suppliers.name AS s_name, * " +
                 "FROM products LEFT JOIN product_categories ON products.product_category=product_categories.id " +
@@ -121,6 +136,10 @@ public class ProductDaoWithJdbc implements ProductDao {
         return product;
     }
 
+    /**
+     * This method remove a product by id from Database.
+     * @param id int type
+     */
     @Override
     public void remove(int id) {
         String query = "DELETE FROM products WHERE id = '" + id + "';";
@@ -132,6 +151,11 @@ public class ProductDaoWithJdbc implements ProductDao {
         }
     }
 
+    /**
+     * This method get all product from Database.
+     * @return an Array List of products
+     * @see #queryExecuteHandler(String)
+     */
     @Override
     public List<Product> getAll() {
         String query = "SELECT * FROM products;";
@@ -139,6 +163,12 @@ public class ProductDaoWithJdbc implements ProductDao {
         return queryExecuteHandler(query);
     }
 
+    /**
+     * This method is finds all products by a given supplier
+     * @param supplier Supplier type
+     * @return an Array List of products
+     * @see #queryExecuteHandler(String)
+     */
     @Override
     public List<Product> getBy(Supplier supplier) {
         String query = "SELECT id FROM products WHERE supplier=" + supplier.getId() + ";";
@@ -146,6 +176,12 @@ public class ProductDaoWithJdbc implements ProductDao {
         return queryExecuteHandler(query);
     }
 
+    /**
+     * This method is finds all products by a given supplier
+     * @param productCategory ProductCategory type
+     * @return an Array List of products
+     * @see #queryExecuteHandler(String)
+     */
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         String query = "SELECT id FROM products WHERE product_category=" + productCategory.getId() + ";";
@@ -153,6 +189,9 @@ public class ProductDaoWithJdbc implements ProductDao {
         return queryExecuteHandler(query);
     }
 
+    /**
+     * This method remove all product from Database.
+     */
     @Override
     public void clearAll() {
         String query = "DELETE FROM products;";
@@ -165,6 +204,14 @@ public class ProductDaoWithJdbc implements ProductDao {
     }
 
 
+    /**
+     * This method is a query helper used by getAll() and getBy() methods.
+     * @param query String type
+     * @return an Array List of products
+     * @see #getAll()
+     * @see #getBy(Supplier)
+     * @see #getBy(ProductCategory)
+     */
     private ArrayList<Product> queryExecuteHandler(String query) {
         ArrayList<Product> allProducts = new ArrayList<>();
 

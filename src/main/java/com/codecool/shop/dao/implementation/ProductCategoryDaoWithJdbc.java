@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kata on 2017.05.09..
+ * This class operates on product cathegory  data works with JDBC API
+ * Can access, store data in a Relational Database.
+ * Singleton class, can be created only one instance.
  */
 public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
 
@@ -29,6 +31,10 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
     }
 
 
+    /**
+     * This method add category to Database.
+     * @param category (ProductCategory)
+     */
     @Override
     public void add(ProductCategory category) {
         int id;
@@ -55,6 +61,11 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
         }
     }
 
+    /**
+     * This method search a productCategory by an int ID to Database.
+     * @param id int type
+     * @return null or the found category
+     */
     @Override
     public ProductCategory find(int id) {
         ProductCategory category = null;
@@ -79,6 +90,11 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
         return category;
     }
 
+    /**
+     * This method search a category by given name to Database.
+     * @param name String type
+     * @return null or the found category
+     */
     @Override
     public ProductCategory find(String name) {
         ProductCategory category = null;
@@ -104,6 +120,10 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
 
     }
 
+    /**
+     * This method remove a category by id from Database.
+     * @param id int type
+     */
     @Override
     public void remove(int id) {
         String query = "DELETE FROM product_categories WHERE id='" + id + "';";
@@ -115,6 +135,10 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
         }
     }
 
+    /**
+     * This method get all category from Database.
+     * @return an Array List of category
+     */
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> allCategories = new ArrayList<>();
@@ -141,6 +165,9 @@ public class ProductCategoryDaoWithJdbc implements ProductCategoryDao {
         return null;
     }
 
+    /**
+     * This method remove all product category from Database.
+     */
     @Override
     public void clearAll() {
         String query = "DELETE FROM product_categories;";

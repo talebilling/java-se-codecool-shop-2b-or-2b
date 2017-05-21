@@ -26,6 +26,7 @@ public class CustomerDaoWithJdbc implements CustomerDao {
     /**
      * Getinstance method provides to return the newly created or if already exists,
      * the existed instance.
+     * @return instance
      */
     public static CustomerDaoWithJdbc getInstance() {
         if (instance == null) {
@@ -39,7 +40,6 @@ public class CustomerDaoWithJdbc implements CustomerDao {
      * into the database.
      * prepareStatement will provide sql injection
      * Catch SQLException if DB connection is failed.
-     *
      * @param customer object (required). Must have content.
      */
     @Override
@@ -61,8 +61,7 @@ public class CustomerDaoWithJdbc implements CustomerDao {
     /**
      * This method is searching customer in DB and returns the customer with the given id
      * Catch SQLException if DB connection or creating statement fails.
-     *
-     * @param id
+     * @param id int type
      * @return customer
      */
     @Override
@@ -90,8 +89,7 @@ public class CustomerDaoWithJdbc implements CustomerDao {
     /**
      * This method is searching customer in DB by given a unique phone number and returns the customer's id
      * Catch SQLException if DB connection or creating statement fails.
-     *
-     * @param phoneNumber
+     * @param phoneNumber int type
      * @return id
      */
     @Override

@@ -4,14 +4,17 @@ import com.codecool.shop.controller.DBController;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.Supplier;
-import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by kata on 2017.05.09..
+ * This class operates on suppier data works with JDBC API
+ * Can access, store data in a Relational Database.
+ * Singleton class, can be created only one instance.
  */
 public class SupplierDaoWithJdbc implements SupplierDao {
 
@@ -30,7 +33,10 @@ public class SupplierDaoWithJdbc implements SupplierDao {
         return instance;
     }
 
-
+    /**
+     * This method add supplier to Database.
+     * @param supplier Supplier type
+     */
     @Override
     public void add(Supplier supplier) {
         int id;
@@ -57,6 +63,11 @@ public class SupplierDaoWithJdbc implements SupplierDao {
         }
     }
 
+    /**
+     * This method search a supplier by an int ID to Database.
+     * @param id int type
+     * @return null or the found supplier
+     */
     @Override
     public Supplier find(int id) {
         //Returns the supplier with the given id in the db
@@ -80,6 +91,11 @@ public class SupplierDaoWithJdbc implements SupplierDao {
         return supplier;
     }
 
+    /**
+     * This method search a supplier by given name to Database.
+     * @param name Stirng type
+     * @return null or the found supplier
+     */
     @Override
     public Supplier find(String name) {
         //Returns the supplier with the given name in the db
@@ -103,6 +119,10 @@ public class SupplierDaoWithJdbc implements SupplierDao {
 
     }
 
+    /**
+     * This method remove a supplier by id from Database.
+     * @param id int type
+     */
     @Override
     public void remove(int id) {
         String query = "DELETE FROM suppliers WHERE id='" + id + "';";
@@ -115,6 +135,9 @@ public class SupplierDaoWithJdbc implements SupplierDao {
         }
     }
 
+    /**
+     * This method remove all supplier from Database.
+     */
     @Override
     public void clearAll() {
         String query = "DELETE FROM suppliers;";
@@ -128,6 +151,10 @@ public class SupplierDaoWithJdbc implements SupplierDao {
     }
 
 
+    /**
+     * This method get all supplier from Database.
+     * @return an Array List of supplier
+     */
     @Override
     public ArrayList<Supplier> getAll() {
         ArrayList<Supplier> suppliers = new ArrayList();
