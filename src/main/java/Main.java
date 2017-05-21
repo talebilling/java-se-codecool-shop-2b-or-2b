@@ -7,20 +7,29 @@ import io.gsonfire.GsonFireBuilder;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-import java.util.List;
-
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
+/**
+ * Main Class, entry point for the CodecoolShop app.
+ * Contains two static methods.
+ *
+ * @author Emese Billing
+ * @author Kata Mészáros
+ * @author István Filimon
+ */
 public class Main {
 
+    /**
+     * Main method.
+     *
+     *<P> Create Database, server settings.
+     *<P> Launch populateData method for creating example data.
+     *<P> Contains all the endpoints on the server side operate on HTTP requests.
+     */
     public static void main(String[] args) {
 
-        //create postgres DB
         DBController dbController = new DBController();
-        //test if db works
-        //dbController.add();
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -104,21 +113,6 @@ public class Main {
         });
 
         post("/save-order", (Request req, Response res) -> {
-            System.out.println("ittvagyunk");
-            System.out.println(req.params("id"));
-/*            CustomerDao customerDataStore = CustomerDaoWithJdbc.getInstance();
-            OrderDao orderDataStore = OrderDaoWithJdbc.getInstance();
-            String param = req.params("id");
-            int customerId = Integer.valueOf(param);
-            Customer customer = customerDataStore.find(customerId);
-            Order order = new Order(customer);
-            orderDataStore.add(order);
-            int orderId = order.getId();
-            List<LineItem> orderedItems = order.getOrderedItems().getShoppingCartContent();
-            for (LineItem orderedItem : orderedItems) {
-                orderedItemsDataStore.add(orderId, orderedItem);
-            }*/
-
             return true;
         });
 
@@ -144,6 +138,11 @@ public class Main {
         enableDebugScreen();
     }
 
+    /**
+     * This method creates example data.
+     * Also creates (singleton) instance of product, suppier and productcategory datastore through DAO interfaces and
+     * all example data is stored in postgres database.
+     */
     public static void populateData() {
 
         ProductDao productDataStore = ProductDaoWithJdbc.getInstance();

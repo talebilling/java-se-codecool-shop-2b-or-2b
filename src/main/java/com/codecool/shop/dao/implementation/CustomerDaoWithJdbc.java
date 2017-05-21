@@ -8,15 +8,25 @@ import java.sql.*;
 
 
 /**
- * Created by joker on 2017.05.10..
+ * This class implements CustomerDao interface.
+ * Singleton class, can be created only one instance.
+ * <p>
+ * The methods can add a new customer to database,
+ * can search/find a customer by an integer id
+ * or a unique phone number in the database.
  */
 public class CustomerDaoWithJdbc implements CustomerDao {
 
     private static CustomerDaoWithJdbc instance = null;
 
+    /** Constructor with no param */
     protected CustomerDaoWithJdbc() {
     }
 
+    /**
+     * Getinstance method provides to return the newly created or if already exists,
+     * the existed instance.
+     */
     public static CustomerDaoWithJdbc getInstance() {
         if (instance == null) {
             instance = new CustomerDaoWithJdbc();
@@ -24,12 +34,16 @@ public class CustomerDaoWithJdbc implements CustomerDao {
         return instance;
     }
 
-
+    /**
+     * This method do try to save customer data (name, email, phone number, billing and shipping address)
+     * into the database.
+     * prepareStatement will provide sql injection
+     * Catch SQLException if DB connection is failed.
+     *
+     * @param customer object (required). Must have content.
+     */
     @Override
     public void add(Customer customer) {
-
-        System.out.println(customer.getName());
-        System.out.println(customer.getEmail());
         try (Connection connection = DBController.getConnection()) {
             PreparedStatement pstmt = connection.prepareStatement("INSERT INTO customers (name, email, " +
                     "phone_number, billing_address, shipping_address) VALUES (?, ?, ?, ?, ?)");
@@ -44,10 +58,15 @@ public class CustomerDaoWithJdbc implements CustomerDao {
         }
     }
 
-
+    /**
+     * This method is searching customer in DB and returns the customer with the given id
+     * Catch SQLException if DB connection or creating statement fails.
+     *
+     * @param id
+     * @return customer
+     */
     @Override
     public Customer find(int id) {
-        //Returns the customer with the given id in the db
         String query = "SELECT * FROM customers WHERE id='" + id + "';";
         Customer customer = null;
         try (Connection connection = DBController.getConnection(); Statement statement = connection.createStatement()) {
@@ -68,9 +87,15 @@ public class CustomerDaoWithJdbc implements CustomerDao {
         return customer;
     }
 
+    /**
+     * This method is searching customer in DB by given a unique phone number and returns the customer's id
+     * Catch SQLException if DB connection or creating statement fails.
+     *
+     * @param phoneNumber
+     * @return id
+     */
     @Override
     public int findByPhoneNumber(int phoneNumber) {
-        //Returns the customer with the given id in the db
         String query = "SELECT * FROM customers WHERE phone_number='" + phoneNumber + "';";
         int id = 0;
         try (Connection connection = DBController.getConnection(); Statement statement = connection.createStatement()) {

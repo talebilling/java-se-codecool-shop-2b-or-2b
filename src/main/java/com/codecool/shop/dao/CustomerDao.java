@@ -3,7 +3,11 @@ package com.codecool.shop.dao;
 import com.codecool.shop.model.Customer;
 
 /**
- * Created by eb on 2017.05.11..
+ * This interface class can add a new customer to database,
+ * and can search/find a customer by an integer id
+ * or a unique phone number in the database.
+ *
+ * @see com.codecool.shop.dao.implementation.CustomerDaoWithJdbc
  */
 public interface CustomerDao {
 
@@ -13,3 +17,7 @@ public interface CustomerDao {
 
     int findByPhoneNumber(int phoneNumber);
 }
+
+/*
+
+ */
